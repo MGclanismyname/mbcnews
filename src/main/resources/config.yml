@@ -5,6 +5,8 @@ capture:
 messages:
   captured: "&a%player% has captured the outpost!"
   contested: "&eThe outpost is being contested!"
+  stopped: "&cThe outpost has been stopped."
 
-end-commands:
-  - "broadcast &6%player% controls the outpost!"
+bossbars:
+  timer-title: "&6Outpost ends in &e%time%"
+  capture-title: "&aCapturing outpost..."

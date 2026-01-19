@@ -2,6 +2,8 @@
 package dev.elliot.outpost;
 
 import dev.elliot.outpost.command.SetOutpostCommand;
+import dev.elliot.outpost.command.StopOutpostCommand;
+import dev.elliot.outpost.listener.BlockListener;
 import dev.elliot.outpost.outpost.OutpostManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -13,6 +15,10 @@ public class OutpostPlugin extends JavaPlugin {
     public void onEnable() {
         saveDefaultConfig();
         manager = new OutpostManager(this);
+
         getCommand("setoutpost").setExecutor(new SetOutpostCommand(manager));
+        getCommand("stopoutpost").setExecutor(new StopOutpostCommand(manager));
+
+        getServer().getPluginManager().registerEvents(new BlockListener(manager), this);
     }
 }
