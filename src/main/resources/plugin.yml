@@ -1,21 +1,5 @@
 
 name: Outpost
-version: 1.4.0
+version: 1.4.1
 main: dev.elliot.outpost.OutpostPlugin
 api-version: '1.21'
-
-commands:
-  setoutpost:
-    permission: outpost.admin
-  stopoutpost:
-    permission: outpost.admin
-  outpost:
-    permission: outpost.admin
-  rewards:
-    permission: outpost.use
-
-permissions:
-  outpost.admin:
-    default: op
-  outpost.use:
-    default: true

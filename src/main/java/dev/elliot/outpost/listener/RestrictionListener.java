@@ -2,10 +2,11 @@
 package dev.elliot.outpost.listener;
 
 import dev.elliot.outpost.outpost.OutpostManager;
+import org.bukkit.entity.Player;
 import org.bukkit.event.*;
+import org.bukkit.event.entity.EntityToggleGlideEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
-import org.bukkit.event.player.PlayerToggleGlideEvent;
 
 public class RestrictionListener implements Listener {
 
@@ -16,14 +17,19 @@ public class RestrictionListener implements Listener {
     }
 
     @EventHandler
-    public void onGlide(PlayerToggleGlideEvent e) {
-        if (manager.isRestricted(e.getPlayer())) e.setCancelled(true);
+    public void onGlide(EntityToggleGlideEvent e) {
+        if (!(e.getEntity() instanceof Player p)) return;
+        if (manager.isRestricted(p)) {
+            e.setCancelled(true);
+        }
     }
 
     @EventHandler
     public void onTeleport(PlayerTeleportEvent e) {
         if (e.getCause() == PlayerTeleportEvent.TeleportCause.ENDER_PEARL
-                && manager.isRestricted(e.getPlayer())) e.setCancelled(true);
+                && manager.isRestricted(e.getPlayer())) {
+            e.setCancelled(true);
+        }
     }
 
     @EventHandler
