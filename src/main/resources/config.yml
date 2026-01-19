@@ -1,9 +1,9 @@
 
-capture-time-seconds: 15
+capture:
+  capture-time-seconds: 15
 
-capture-object:
-  material: BEACON
+messages:
+  captured: "&a%player% has captured the outpost!"
 
 end-commands:
-  - "eco give %player% 1000"
-  - "broadcast &a%player% controls the outpost!"
+  - "broadcast &6%player% controls the outpost!"
