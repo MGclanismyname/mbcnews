@@ -2,7 +2,7 @@
 package dev.elliot.outpost;
 
 import dev.elliot.outpost.command.*;
-import dev.elliot.outpost.listener.*;
+import dev.elliot.outpost.listener.BlockListener;
 import dev.elliot.outpost.outpost.OutpostManager;
 import dev.elliot.outpost.placeholder.OutpostExpansion;
 import dev.elliot.outpost.rewards.RewardStorage;
@@ -22,18 +22,12 @@ public class OutpostPlugin extends JavaPlugin {
 
         getCommand("setoutpost").setExecutor(new SetOutpostCommand(manager));
         getCommand("stopoutpost").setExecutor(new StopOutpostCommand(manager));
-        getCommand("outpost").setExecutor(new OutpostCommand(this));
         getCommand("rewards").setExecutor(new RewardsCommand(rewards));
 
-        Bukkit.getPluginManager().registerEvents(new RestrictionListener(manager), this);
         Bukkit.getPluginManager().registerEvents(new BlockListener(manager), this);
 
         if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
             new OutpostExpansion(manager).register();
         }
-    }
-
-    public OutpostManager getManager() {
-        return manager;
     }
 }

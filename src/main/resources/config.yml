@@ -2,18 +2,8 @@
 capture:
   capture-time-seconds: 20
 
-restrictions:
-  radius: 10
-  disable-elytra: true
-  disable-pearls: true
-  keep-inventory: true
-
-bossbars:
-  timer-title: "&6Outpost ends in &e%time%"
-  capture-title: "&aCapturing outpost..."
-
 messages:
-  captured: "&a%player% captured an outpost!"
+  captured: "&a%player% has captured the outpost!"
   ended: "&6%player% won the outpost!"
 
 end-commands:
