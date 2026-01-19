@@ -27,7 +27,7 @@ public class OutpostManager {
         b.setType(Material.BLACK_BANNER);
 
         Banner banner = (Banner) b.getState();
-        banner.addPattern(new Pattern(DyeColor.GOLD, PatternType.STRIPE_DOWNRIGHT));
+        banner.addPattern(new Pattern(DyeColor.YELLOW, PatternType.STRIPE_DOWNRIGHT));
         banner.addPattern(new Pattern(DyeColor.WHITE, PatternType.BORDER));
         banner.update();
 

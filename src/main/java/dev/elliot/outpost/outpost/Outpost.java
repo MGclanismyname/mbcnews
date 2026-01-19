@@ -11,7 +11,6 @@ public class Outpost {
     public final int height;
 
     public UUID owner;
-    public UUID capturer;
     public int progress;
 
     public Outpost(Location center, int radius, int height) {
