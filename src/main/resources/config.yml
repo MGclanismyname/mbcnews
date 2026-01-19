@@ -1,9 +1,10 @@
 
 capture:
-  capture-time-seconds: 15
+  capture-time-seconds: 20
 
 messages:
   captured: "&a%player% has captured the outpost!"
+  contested: "&eThe outpost is being contested!"
 
 end-commands:
   - "broadcast &6%player% controls the outpost!"
