@@ -17,6 +17,7 @@ public class SetOutpostCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (!(sender instanceof Player p)) return true;
+
         if (args.length != 3) {
             p.sendMessage("§c/setoutpost <1d|1h|1m> <radius> <height>");
             return true;
@@ -28,6 +29,7 @@ public class SetOutpostCommand implements CommandExecutor {
             Integer.parseInt(args[1]),
             Integer.parseInt(args[2])
         );
+
         p.sendMessage("§aOutpost started!");
         return true;
     }

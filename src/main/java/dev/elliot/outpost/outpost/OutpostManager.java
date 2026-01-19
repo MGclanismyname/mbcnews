@@ -21,8 +21,7 @@ public class OutpostManager {
     private int radius, height;
 
     private BossBar timerBar;
-    private Map<UUID, BossBar> captureBars = new HashMap<>();
-
+    private final Map<UUID, BossBar> captureBars = new HashMap<>();
     private BukkitRunnable task;
     private Block bannerBlock;
 
@@ -31,7 +30,7 @@ public class OutpostManager {
     }
 
     public void startOutpost(Location loc, int duration, int radius, int height) {
-        stopOutpost(true);
+        stopOutpost(false);
 
         this.center = loc;
         this.radius = radius;
@@ -46,22 +45,26 @@ public class OutpostManager {
         banner.addPattern(new Pattern(DyeColor.WHITE, PatternType.BORDER));
         banner.update();
 
-        timerBar = Bukkit.createBossBar("Outpost", BarColor.YELLOW, BarStyle.SEGMENTED_20);
+        timerBar = Bukkit.createBossBar("", BarColor.YELLOW, BarStyle.SEGMENTED_20);
         Bukkit.getOnlinePlayers().forEach(timerBar::addPlayer);
 
         task = new BukkitRunnable() {
             int timeLeft = duration;
             UUID capturer = null;
             int progress = 0;
-            int needed = plugin.getConfig().getInt("capture.capture-time-seconds");
+            final int needed = plugin.getConfig().getInt("capture.capture-time-seconds");
 
             @Override
             public void run() {
                 if (timeLeft-- <= 0) {
-                    stopOutpost(true);
+                    finishOutpost();
                     return;
                 }
 
+                String title = plugin.getConfig().getString("bossbars.timer-title")
+                    .replace("&", "§")
+                    .replace("%time%", formatTime(timeLeft));
+                timerBar.setTitle(title);
                 timerBar.setProgress((double) timeLeft / duration);
 
                 Set<Player> inside = new HashSet<>();
@@ -77,7 +80,7 @@ public class OutpostManager {
                         return;
                     }
 
-                    if (capturer == null || !capturer.equals(p.getUniqueId())) {
+                    if (!p.getUniqueId().equals(capturer)) {
                         capturer = p.getUniqueId();
                         progress = 0;
                     }
@@ -90,6 +93,7 @@ public class OutpostManager {
                         capturer = null;
                         progress = 0;
                         clearCaptureBars();
+
                         Bukkit.broadcastMessage(
                             plugin.getConfig().getString("messages.captured")
                                 .replace("&", "§")
@@ -106,20 +110,45 @@ public class OutpostManager {
         task.runTaskTimer(plugin, 20, 20);
     }
 
-    public void stopOutpost(boolean reward) {
-        if (task != null) task.cancel();
+    private void finishOutpost() {
+        task.cancel();
+        timerBar.removeAll();
         clearCaptureBars();
 
-        if (timerBar != null) timerBar.removeAll();
+        if (owner != null) {
+            Player p = Bukkit.getPlayer(owner);
+            if (p != null) {
+                Bukkit.broadcastMessage(
+                    plugin.getConfig().getString("messages.ended")
+                        .replace("&", "§")
+                        .replace("%player%", p.getName())
+                );
+                for (String cmd : plugin.getConfig().getStringList("end-commands")) {
+                    Bukkit.dispatchCommand(
+                        Bukkit.getConsoleSender(),
+                        cmd.replace("%player%", p.getName())
+                    );
+                }
+            }
+        }
 
-        if (!reward && center != null) {
+        if (bannerBlock != null) bannerBlock.setType(Material.AIR);
+        center = null;
+        owner = null;
+    }
+
+    public void stopOutpost(boolean reward) {
+        if (task != null) task.cancel();
+        if (timerBar != null) timerBar.removeAll();
+        clearCaptureBars();
+
+        if (!reward) {
             Bukkit.broadcastMessage(plugin.getConfig().getString("messages.stopped").replace("&", "§"));
         }
 
         if (bannerBlock != null) bannerBlock.setType(Material.AIR);
-
-        owner = null;
         center = null;
+        owner = null;
     }
 
     public boolean isOutpostBlock(Block b) {
@@ -149,5 +178,14 @@ public class OutpostManager {
     private void clearCaptureBars() {
         captureBars.values().forEach(BossBar::removeAll);
         captureBars.clear();
+    }
+
+    private String formatTime(int seconds) {
+        int h = seconds / 3600;
+        int m = (seconds % 3600) / 60;
+        int s = seconds % 60;
+        if (h > 0) return h + "h " + m + "m";
+        if (m > 0) return m + "m " + s + "s";
+        return s + "s";
     }
 }
