@@ -1,6 +1,7 @@
 
 package dev.elliot.outpost;
 
+import dev.elliot.outpost.command.OutpostCommand;
 import dev.elliot.outpost.command.SetOutpostCommand;
 import dev.elliot.outpost.command.StopOutpostCommand;
 import dev.elliot.outpost.listener.BlockListener;
@@ -18,6 +19,7 @@ public class OutpostPlugin extends JavaPlugin {
 
         getCommand("setoutpost").setExecutor(new SetOutpostCommand(manager));
         getCommand("stopoutpost").setExecutor(new StopOutpostCommand(manager));
+        getCommand("outpost").setExecutor(new OutpostCommand(this));
 
         getServer().getPluginManager().registerEvents(new BlockListener(manager), this);
     }
