@@ -11,14 +11,12 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class OutpostPlugin extends JavaPlugin {
 
-    private OutpostManager manager;
-
     @Override
     public void onEnable() {
         saveDefaultConfig();
 
         RewardStorage rewards = new RewardStorage();
-        manager = new OutpostManager(this, rewards);
+        OutpostManager manager = new OutpostManager(this, rewards);
 
         getCommand("setoutpost").setExecutor(new SetOutpostCommand(manager));
         getCommand("stopoutpost").setExecutor(new StopOutpostCommand(manager));

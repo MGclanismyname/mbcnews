@@ -47,6 +47,7 @@ public class OutpostManager {
                 if (timeLeft-- <= 0) {
                     finishOutpost();
                     cancel();
+                    return;
                 }
 
                 Player capturer = null;
