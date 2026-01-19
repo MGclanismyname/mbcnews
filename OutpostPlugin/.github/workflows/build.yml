@@ -1,4 +1,6 @@
-name: MBC Outpost Plugin
+name: Build with Maven
+run: mvn clean package
+working-directory: OutpostPlugin
 
 on:
   push:
