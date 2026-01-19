@@ -13,10 +13,9 @@ public class OutpostExpansion extends PlaceholderExpansion {
         this.manager = manager;
     }
 
-    @Override
-    public String getIdentifier() {
-        return "points_captured";
-    }
+    @Override public String getIdentifier() { return "points_captured"; }
+    @Override public String getAuthor() { return "Elliot"; }
+    @Override public String getVersion() { return "1.4.2"; }
 
     @Override
     public String onPlaceholderRequest(Player p, String params) {

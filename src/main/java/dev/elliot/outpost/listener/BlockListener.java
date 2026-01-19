@@ -2,8 +2,7 @@
 package dev.elliot.outpost.listener;
 
 import dev.elliot.outpost.outpost.OutpostManager;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
+import org.bukkit.event.*;
 import org.bukkit.event.block.BlockBreakEvent;
 
 public class BlockListener implements Listener {

@@ -18,8 +18,7 @@ public class RestrictionListener implements Listener {
 
     @EventHandler
     public void onGlide(EntityToggleGlideEvent e) {
-        if (!(e.getEntity() instanceof Player p)) return;
-        if (manager.isRestricted(p)) {
+        if (e.getEntity() instanceof Player p && manager.isRestricted(p)) {
             e.setCancelled(true);
         }
     }

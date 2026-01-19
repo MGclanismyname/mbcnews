@@ -17,10 +17,7 @@ public class OutpostCommand implements CommandExecutor {
         if (args.length == 1 && args[0].equalsIgnoreCase("reload")) {
             plugin.reloadConfig();
             sender.sendMessage("§aOutpost config reloaded.");
-            return true;
         }
-
-        sender.sendMessage("§e/outpost reload");
         return true;
     }
 }
