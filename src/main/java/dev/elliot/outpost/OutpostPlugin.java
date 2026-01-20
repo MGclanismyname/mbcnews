@@ -1,26 +1,18 @@
-
 package dev.elliot.outpost;
-
-import dev.elliot.outpost.command.OutpostCommand;
-import dev.elliot.outpost.command.SetOutpostCommand;
-import dev.elliot.outpost.command.StopOutpostCommand;
+import dev.elliot.outpost.command.*;
 import dev.elliot.outpost.listener.BlockListener;
 import dev.elliot.outpost.outpost.OutpostManager;
+import dev.elliot.outpost.rewards.RewardManager;
 import org.bukkit.plugin.java.JavaPlugin;
-
 public class OutpostPlugin extends JavaPlugin {
-
-    private OutpostManager manager;
-
-    @Override
-    public void onEnable() {
-        saveDefaultConfig();
-        manager = new OutpostManager(this);
-
-        getCommand("setoutpost").setExecutor(new SetOutpostCommand(manager));
-        getCommand("stopoutpost").setExecutor(new StopOutpostCommand(manager));
-        getCommand("outpost").setExecutor(new OutpostCommand(this));
-
-        getServer().getPluginManager().registerEvents(new BlockListener(manager), this);
-    }
-}
+@Override public void onEnable() {
+saveDefaultConfig();
+saveResource("rewards.yml", false);
+RewardManager rm = new RewardManager(this);
+OutpostManager om = new OutpostManager(this, rm);
+getCommand("setoutpost").setExecutor(new SetOutpostCommand(om));
+getCommand("stopoutpost").setExecutor(new StopOutpostCommand(om));
+getCommand("rewards").setExecutor(new RewardsCommand(rm));
+getCommand("reward").setExecutor(new RewardAdminCommand(rm));
+getServer().getPluginManager().registerEvents(new BlockListener(om), this);
+}}
