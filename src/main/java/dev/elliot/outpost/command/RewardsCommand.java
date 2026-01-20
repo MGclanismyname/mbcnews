@@ -13,4 +13,5 @@ Inventory inv=Bukkit.createInventory(null,54,"Outpost Rewards");
 rm.pending(p).forEach(inv::addItem);
 p.openInventory(inv);
 return true;
-}}
+}
+}

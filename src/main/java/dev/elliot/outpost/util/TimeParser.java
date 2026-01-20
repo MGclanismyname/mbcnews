@@ -6,4 +6,5 @@ int v=Integer.parseInt(s.replaceAll("[^0-9]",""));
 if(s.endsWith("h"))return v*3600;
 if(s.endsWith("m"))return v*60;
 return v;
-}}
+}
+}
