@@ -26,10 +26,11 @@ bedrock=l.clone().subtract(0,1,0).getBlock();
 bedrock.setType(Material.BEDROCK);
 banner=l.getBlock();
 banner.setType(Material.BLACK_BANNER);
-if(banner.getState() instanceof Banner b){
+BlockState state=banner.getState();
+if(state instanceof Banner b){
 b.setPatterns(List.of(
-new Pattern(DyeColor.RED, PatternType.CROSS),
-new Pattern(DyeColor.WHITE, PatternType.BORDER)
+new org.bukkit.block.banner.Pattern(org.bukkit.DyeColor.RED, org.bukkit.block.banner.PatternType.CROSS),
+new org.bukkit.block.banner.Pattern(org.bukkit.DyeColor.WHITE, org.bukkit.block.banner.PatternType.BORDER)
 ));
 b.update();
 }
@@ -77,6 +78,6 @@ if(timerBar!=null) timerBar.removeAll();
 if(captureBar!=null) captureBar.removeAll();
 cleanup();
 }
-public boolean isOutpostBlock(Block b){return b.equals(banner)||b.equals(bedrock);}
+public boolean isOutpostBlock(Block b){return b!=null&&(b.equals(banner)||b.equals(bedrock));}
 private String color(String s){return s==null?"":s.replace("&","§");}
 }

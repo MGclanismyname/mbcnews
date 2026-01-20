@@ -1,5 +1,5 @@
 name: Outpost
-version: 1.3.4
+version: 1.3.4a
 main: dev.elliot.outpost.OutpostPlugin
 api-version: '1.21'
 commands:
