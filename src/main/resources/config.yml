@@ -1,8 +1,16 @@
+capture:
+  time-seconds: 15
+
 messages:
+  prefix: "&6[Outpost] "
+  usage-set: "&cUsage: /setoutpost <time> <radius> <height>"
+  usage-reward: "&cUsage: /reward add <id> | /reward delete <id>"
   captured: "&a%player% has captured the outpost!"
   ended: "&6%player% won the outpost!"
+
 bossbars:
   timer: "&6Outpost ends in &e%time%"
-  capture: "&aCapturing Outpost"
+  capture: "&aCapturing Outpost &7(%progress%%)"
+
 end-commands:
   - "eco give %player% 1000"

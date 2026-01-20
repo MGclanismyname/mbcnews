@@ -18,10 +18,12 @@ private int radius;
 private BukkitRunnable task;
 private BossBar timerBar;
 private BossBar captureBar;
-public OutpostManager(OutpostPlugin p, RewardManager rm){this.plugin=p;this.rm=rm;}
+private int captureTime;
+private final Map<UUID,Integer> captureProgress = new HashMap<>();
+public OutpostManager(OutpostPlugin p, RewardManager rm){this.plugin=p;this.rm=rm; this.captureTime=p.getConfig().getInt("capture.time-seconds");}
 public void startOutpost(Location l,int duration,int r,int h){
 stopOutpost(false);
-center=l; radius=r; owner=null;
+center=l; radius=r; owner=null; captureProgress.clear();
 bedrock=l.clone().subtract(0,1,0).getBlock();
 bedrock.setType(Material.BEDROCK);
 banner=l.getBlock();
@@ -41,17 +43,22 @@ public void run(){
 timerBar.setProgress(Math.max(0,(double)t/duration));
 timerBar.setTitle(color(plugin.getConfig().getString("bossbars.timer").replace("%time%",String.valueOf(t))));
 if(t--<=0){finish(); cancel(); return;}
-Player inside=null;
 for(Player p:Bukkit.getOnlinePlayers()){
 timerBar.addPlayer(p);
 if(p.getWorld().equals(center.getWorld())&&p.getLocation().distance(center)<=radius){
-inside=p; captureBar.addPlayer(p);
+int prog=captureProgress.getOrDefault(p.getUniqueId(),0)+1;
+captureProgress.put(p.getUniqueId(),prog);
+double percent=(prog*100.0)/captureTime;
+captureBar.addPlayer(p);
+captureBar.setProgress(Math.min(1,prog/(double)captureTime));
+captureBar.setTitle(color(plugin.getConfig().getString("bossbars.capture")
+.replace("%progress%",String.valueOf((int)percent))));
+if(prog>=captureTime && (owner==null||!owner.equals(p.getUniqueId()))){
+owner=p.getUniqueId();
+captureProgress.clear();
+Bukkit.broadcastMessage(color(plugin.getConfig().getString("messages.captured").replace("%player%",p.getName())));
 }
-}
-if(inside!=null&&(owner==null||!owner.equals(inside.getUniqueId()))){
-owner=inside.getUniqueId();
-Bukkit.broadcastMessage(color(plugin.getConfig().getString("messages.captured").replace("%player%",inside.getName())));
-}
+}}
 }};
 task.runTaskTimer(plugin,20,20);
 }

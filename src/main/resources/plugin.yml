@@ -1,13 +1,17 @@
 name: Outpost
-version: 1.3.4a
+version: 1.3.4b
 main: dev.elliot.outpost.OutpostPlugin
 api-version: '1.21'
 commands:
   setoutpost:
+    usage: "/setoutpost <time> <radius> <height>"
     permission: outpost.admin
   stopoutpost:
+    usage: "/stopoutpost"
     permission: outpost.admin
   rewards:
+    usage: "/rewards"
     permission: outpost.use
   reward:
+    usage: "/reward add <id> | /reward delete <id>"
     permission: outpost.admin
