@@ -1,5 +1,8 @@
 messages:
   captured: "&a%player% has captured the outpost!"
   ended: "&6%player% won the outpost!"
+bossbars:
+  timer: "&6Outpost ends in &e%time%"
+  capture: "&aCapturing Outpost"
 end-commands:
   - "eco give %player% 1000"
