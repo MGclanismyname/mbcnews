@@ -33,19 +33,12 @@ bedrock=l.clone().subtract(0,1,0).getBlock();
 bedrock.setType(Material.BEDROCK);
 banner=l.getBlock();
 banner.setType(Material.BLACK_BANNER);
-BlockState state=banner.getState();
-if(state instanceof Banner b){
-b.setPatterns(List.of(
-new org.bukkit.block.banner.Pattern(org.bukkit.DyeColor.RED, org.bukkit.block.banner.PatternType.CROSS),
-new org.bukkit.block.banner.Pattern(org.bukkit.DyeColor.WHITE, org.bukkit.block.banner.PatternType.BORDER)
-));
-b.update();
-}
-timerBar=Bukkit.createBossBar("Outpost Timer", BarColor.YELLOW, BarStyle.SOLID);
-captureBar=Bukkit.createBossBar("Capturing Outpost", BarColor.GREEN, BarStyle.SEGMENTED_10);
+timerBar=Bukkit.createBossBar(plugin.color(plugin.getConfig().getString("bossbars.timer")), BarColor.YELLOW, BarStyle.SOLID);
+captureBar=Bukkit.createBossBar(plugin.color(plugin.getConfig().getString("bossbars.capture")), BarColor.GREEN, BarStyle.SEGMENTED_10);
 task=new BukkitRunnable(){int t=duration;
 public void run(){
 timerBar.setProgress(Math.max(0,(double)t/duration));
+timerBar.setTitle(plugin.color(plugin.getConfig().getString("bossbars.timer").replace("%time%",String.valueOf(t))));
 if(t--<=0){finish(); cancel(); return;}
 for(Player p:Bukkit.getOnlinePlayers()){
 timerBar.addPlayer(p);
@@ -56,12 +49,16 @@ captureBar.removePlayer(p); continue;
 }
 int prog=captureProgress.getOrDefault(p.getUniqueId(),0)+1;
 captureProgress.put(p.getUniqueId(),prog);
+double percent=(prog*100.0)/captureTime;
 captureBar.addPlayer(p);
 captureBar.setProgress(Math.min(1,prog/(double)captureTime));
+captureBar.setTitle(plugin.color(plugin.getConfig().getString("bossbars.capture")
+.replace("%progress%",String.valueOf((int)percent))));
 if(prog>=captureTime){
 owner=p.getUniqueId();
 captureProgress.clear();
-Bukkit.broadcastMessage(p.getName()+" captured the outpost!");
+Bukkit.broadcastMessage(plugin.color(plugin.getConfig().getString("messages.prefix")
++plugin.getConfig().getString("messages.captured").replace("%player%",p.getName())));
 }
 }
 }};
@@ -75,6 +72,8 @@ Player p=Bukkit.getPlayer(owner);
 if(p!=null){
 points.add(owner);
 rm.queue(p);
+Bukkit.broadcastMessage(plugin.color(plugin.getConfig().getString("messages.prefix")
++plugin.getConfig().getString("messages.ended").replace("%player%",p.getName())));
 for(String c:plugin.getConfig().getStringList("end-commands"))
 Bukkit.dispatchCommand(Bukkit.getConsoleSender(),c.replace("%player%",p.getName()));
 }

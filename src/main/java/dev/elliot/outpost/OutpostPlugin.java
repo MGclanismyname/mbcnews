@@ -24,5 +24,5 @@ if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
 new OutpostExpansion(this, points).register();
 }
 }
-public PointsManager getPoints(){return points;}
+public String color(String s){ return s == null ? "" : s.replace("&","§"); }
 }

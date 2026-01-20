@@ -3,8 +3,6 @@ capture:
 
 messages:
   prefix: "&6[Outpost] "
-  usage-set: "&cUsage: /setoutpost <time> <radius> <height>"
-  usage-reward: "&cUsage: /reward add <id> | /reward delete <id>"
   captured: "&a%player% has captured the outpost!"
   ended: "&6%player% won the outpost!"
 

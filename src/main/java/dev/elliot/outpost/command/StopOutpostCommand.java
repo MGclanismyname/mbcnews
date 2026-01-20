@@ -7,6 +7,7 @@ private final OutpostManager om; private final OutpostPlugin plugin;
 public StopOutpostCommand(OutpostManager om, OutpostPlugin plugin){this.om=om; this.plugin=plugin;}
 @Override public boolean onCommand(CommandSender s, Command c, String l, String[] a){
 om.stopOutpost(false);
+s.sendMessage(plugin.color(plugin.getConfig().getString("messages.prefix")+"Outpost stopped."));
 return true;
 }
 }

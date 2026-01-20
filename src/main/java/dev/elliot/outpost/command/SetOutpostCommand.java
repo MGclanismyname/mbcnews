@@ -9,7 +9,11 @@ private final OutpostManager om; private final OutpostPlugin plugin;
 public SetOutpostCommand(OutpostManager om, OutpostPlugin plugin){this.om=om; this.plugin=plugin;}
 @Override public boolean onCommand(CommandSender s, Command c, String l, String[] a){
 if(!(s instanceof Player p)) return true;
-if(a.length!=3){p.sendMessage("Usage: /setoutpost <time> <radius> <height>"); return true;}
+if(a.length!=3){
+p.sendMessage(plugin.color(plugin.getConfig().getString("messages.prefix")
++"Usage: /setoutpost <time> <radius> <height>"));
+return true;
+}
 om.startOutpost(p.getLocation(), TimeParser.parse(a[0]), Integer.parseInt(a[1]), Integer.parseInt(a[2]));
 return true;
 }
