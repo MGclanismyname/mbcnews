@@ -1,0 +1,17 @@
+
+capture:
+  capture-time-seconds: 20
+
+messages:
+  captured: "&a%player% has captured the outpost!"
+  contested: "&eThe outpost is being contested!"
+  stopped: "&cThe outpost has been stopped."
+  ended: "&6%player% has won the outpost!"
+
+bossbars:
+  timer-title: "&6Outpost ends in &e%time%"
+  capture-title: "&aCapturing outpost..."
+
+end-commands:
+  - "eco give %player% 1000"
+  - "broadcast &6%player% controls the outpost!"
